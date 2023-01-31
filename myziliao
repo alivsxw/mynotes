@@ -1,0 +1,277 @@
+ifconfig eth0 192.168.1.22 netmask 255.0.0.0 broadcast 192.168.1.1
+
+ifconfig eth0 192.168.106.82 netmask 255.0.0.0 broadcast 192.168.0.1
+
+ifconfig eth0 192.168.1.72 netmask 255.0.0.0 broadcast 192.168.0.1
+
+broadcast 网关
+netmask	  子网掩码  
+
+电脑ping不通设备通常 要检查mask 和 ip
+
+
+mount -t nfs -o tcp -o nolock 192.168.1.71:/nfs /mnt
+
+cmake
+================================================================================================
+cmake_minimum_required(VERSION 2.8.12)
+
+project(sample_db)
+
+set(OS "win32 linux arm" CACHE STRING "none")
+
+set(CMAKE_FIND_ROOT_PATH /opt/hisi-linux/x86-arm/arm-himix200-linux)
+set(CMAKE_C_COMPILER /opt/hisi-linux/x86-arm/arm-himix200-linux/bin/arm-himix200-linux-gcc)
+set(CMAKE_C_FLAGS "-g -O0 -pthread -fPIC")
+set(CMAKE_CXX_COMPILER /opt/hisi-linux/x86-arm/arm-himix200-linux/bin/arm-himix200-linux-g++)
+set(CMAKE_CXX_FLAGS "-O2 -fPIC -std=c++11")	
+
+link_directories("${PROJECT_SOURCE_DIR}/../install/hisi/hi3516dv300/lib")	
+link_directories("${PROJECT_SOURCE_DIR}/../lib")	
+include_directories(
+					"${PROJECT_SOURCE_DIR}/../install/hisi/hi3516dv300/include"
+					)
+					
+add_executable(sample_zlp "sample.c" )
+
+target_link_libraries(sample_zlp  -lZLPACSCloud -ldl -lcurl -lwebsockets -lssl -lcrypto -lm -lpthread)
+
+==========
+tar -xvf %s -C %s  解压
+tar zxvf zlib-1.2.7.tar.gz -C ~  解压
+tar -cvzf *.tar *  打包
+unzip test.zip 解压
+zip -r test.zip tmb/ 压缩
+
+
+tftp -gr usrdata.ext4 192.168.123.0
+tftp –g –l upgrade –r upgrade 192.168.1.69（服务器（电脑ip）
+tftp –p –l PJCMP-bak.db –r PJCMP-bak.db 192.168.2.18 
+================================================================================================
+/**
+* fun:人脸比对记录上传到MQTT云平台
+* @pstDorfaceresultmsg-in:输入比对信息
+* @return:0-success;
+**/
+
+检测网络外网状态
+wget http://www.baidu.com
+
+
+make 、
+出现   undefined reference to
+依赖的库放在后面  库A里面调用了库B的函数 则A在B的前面
+
+-Wl,--start-group -Wl,--end-group 
+屏蔽static
+handle SIGPIPE nostop noprint nopass
+
+
+抓包使用工具 tcpdump
+https://blog.csdn.net/qq_33936481/article/details/51416730
+
+./tcpdump -i eth0  -w /mnt/a.cap
+
+date -s 14:20:50
+设置时间
+
+1秒(s) = 1000 毫秒(ms) = 1,000,000 微秒(μs) = 1,000,000,000 纳秒(ns) = 1,000,000,000,000 皮秒(ps)
+
+
+
+虚拟机相关
+
+sudo vim /etc/network/interfaces
+
+
+strtol(szStr,&endptr,10);
+
+//int c = 0;
+//fflush(stdin);
+//scanf("%d", &c);
+//if (c == 1)
+
+驱动
+himm 0x10FF0030 0x500   --->复用GPIO1_5  最后一个0-GPIO
+himm 0x10FF0034 0x500   --->复用GPIO1_6  最后一个0-GPIO
+
+himm 0x120d1400 0xff	--->方向 设置输出
+
+cpio 1-5
+himm 0x120d1080 0xff	--->赋值
+himm 0x120d1080 0x0
+
+cpio 1-6
+himm 0x120d1100 0xff	--->赋值
+himm 0x120d1100 0x00
+
+
+himm 0x10FF0030 0x500
+himm 0x10FF0034 0x500
+himm 0x120d1400 0xff
+
+4701945599
+类型		  长度		范围
+int  			4   (-2147483648,2147483647)
+long int    	4	(-2147483648,2147483647)
+unsigned int	4	(0,4294967295)
+long			4	(-2147483648,2147483647)
+long long		8	(-9223372036854775808,9223372036854775808)
+unsigned long	4	(0,4294967295)
+char			1	(-128,128)
+unsigned char	1	(0.255)
+
+
+//该宏所在函数的名称
+printf("%s\n",__func__);
+//该宏所在函数的名称
+printf("%s\n",__FUNCTION__);
+//该宏所在的行号
+printf("%d\n",__LINE__);
+//该宏所在的文件
+printf("%s\n",__FILE__);
+//文件编译的日期
+printf("%s\n",__DATE__);
+//文件编译的时间
+printf("%s\n",__TIME__);
+\033[1m\033[40;33m
+printf("\033[0m\033[40;34m	  [%s:%d]\033[0m\n", __func__, __LINE__);				蓝
+printf("\033[1m\033[40;32m	  [%s:%d]\033[0m\n", __func__, __LINE__);				绿
+printf("\033[1m\033[40;31m	  [%s:%d]\033[0m\n", __func__, __LINE__);				红
+
+
+
+#include <sys/timeb.h>
+#include <time.h>
+#include <stdio.h>
+
+
+void timeprintf(const char *arg,const char *pfun,const char *pline)
+{
+	struct timeb tTimeB;
+	ftime(&tTimeB);//获取当前的秒数和毫秒数
+	struct tm *tTM = localtime(&tTimeB.time);//将秒数转为时间格式
+	printf("\033[0m\033[40;34m %s:%02d:%02d:%02d.%03d  [%s:%d]\033[0m\n",arg,tTM->tm_hour, tTM->tm_min, tTM->tm_sec, tTimeB.millitm,pfun, pline);
+	return;
+}
+
+
+日志
+http://www.javashuo.com/article/p-hzdjipmu-kd.html
+
+
+查找pid号
+783 root      0:00 udhcpc -i eth0 -b -x lease 300
+ps | grep "udhcpc"| awk '$6=="eth0" {print $4}'
+udhcpc
+设置默认网关
+route add default gw 192.168.0.1
+route del default eth0//删除默认网关
+
+
+GDB
+程序是和网络相关的，调试期间经常地收到SIGPIPE，导致gdb停下来。看了一下gdb info，解决方法很简单。用handle命令设置一下缺省signal的处理行为就可以了:
+   handle SIGPIPE nostop
+如果连提示信息都不想看见，就可以这样设置:
+   handle SIGPIPE nostop noprint
+   
+   
+软件下载  
+https://www.softpedia.com/  
+
+  
+   
+   宏视云平台
+添加设备  
+   节点管理 
+				  132
+		网络标识：7   
+
+提交人员
+	房屋浏览-人员属性-智慧社区-业主
+
+export CC=/usr/local/bin/gcc
+export CXX=/usr/local/bin/g++
+
+无法 建立 SSL Qiniu_Io_PutFile
+
+卓利普
+Syzhzyy@666
+
+wireshark过滤规则
+tcp.port == 9099 and tcp.len >100
+
+./tcpdump  port  5060  -w  teetimeout.cap
+
+libsodium 
+加密库
+
+wcdb
+微信跨平台数据库框架
+
+libevent
+异步事件通知库
+
+libvips
+快速图像处理
+
+http-parser
+http请求响应解析器
+
+cello
+用c高级编程
+
+
+time_t CORED_COMMON_Midnight_timestamp(INT ntm_hour)
+{
+	  time_t t = time(NULL);
+	  struct tm * tm= localtime(&t);
+	  tm->tm_hour = ntm_hour;
+	  tm->tm_min = 0;
+	  tm->tm_sec = 0;
+	  return  mktime(tm);
+}
+
+
+INT TEST_AUDIO(const CHAR* pFrameBuff,const INT iframe_size)
+{
+	FILE *pFile  = NULL;
+	pFile = fopen("/home/audio", "a");
+	if(pFile==NULL)
+	{
+		printf("open /home/audio err\n");
+		return -1;
+	}
+	int ret = fwrite(pFrameBuff, iframe_size, 1, pFile);
+	if(ret!=1)
+	{
+		fclose(pFile);
+		pFile=NULL;
+		printf("write /home/audio err\n");
+		return -1;
+	}
+	fflush(pFile);
+	fsync(fileno(pFile));
+	fclose(pFile);
+	pFile=NULL;
+	return 0;
+}
+
+
+{"c":"heartbeat","r":"heartbeat","f":"mqttdev26661","t":"server","m":{"t":"01eq7aw1buwe9ni4401ny4ufwul6x31x"}}
+
+{"c":"heartbeat","r":"heartbeat","f":"mqttdev26661","t":"server","m":{"t":"4zrdf1qcx09mi9o4o02nhwgl6rd8qylu"},"ts":1658134071};
+
+{"c":"faceResult","f":"mqttdev29199","t":"server","m":{"t":"msgid"},"rs":{"c":"1001","i":"277778","id":"1"}}
+
+{"c":"faceResult","f":"server","m":{"t":"abc-123"},"t":"mqttdev26661"}
+
+
+
+
+
+
+
+
+
+
