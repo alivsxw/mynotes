@@ -1,0 +1,137 @@
+
+联永566
+
+openssl-1.0.2e 
+openssl编译  libssl.a libcrypto.a
+1. cd libopenssl   no-asm
+2. setarch linux32 ./config no-asm -shared --prefix=/root/install/openssl
+3. 修改Makefile CC=/opt/arm-ca9-linux-uclibcgnueabihf-8.4.01/usr/bin/arm-linux-gcc  去除编译连接选项 -m64， linux-x86_64改成linux-elf  
+4. make && make install
+================================================================================================================================================================================
+curl编译  libcurl.a
+1、配置 configure
+CPPFLAGS="-I/usr/local/openssl/ -I/usr/local/openssl/include" LDFLAGS="-L/usr/local/openssl/lib" LIBS="-ldl -lssl -lcrypto" ./configure --host=arm-ca9-linux CC=/opt/arm-ca9-linux-uclibcgnueabihf-8.4.01/usr/bin/arm-linux-gcc CXX=/opt/arm-ca9-linux-uclibcgnueabihf-8.4.01/usr/bin/arm-linux-g++ --with-ssl --enable-shared --enable-static --disable-dict --disable-ftp --disable-imap --disable-ldap --disable-ldaps --disable-pop3 --disable-proxy --disable-rtsp --disable-smtp --disable-telnet --disable-tftp --disable-zlib --without-ca-bundle --without-gnutls --without-libidn --without-librtmp --without-libssh2 --without-nss --without-zlib --prefix=/usr/local/curl
+2、make；make install
+
+
+./configure  \
+--host=arm-ca9-linux  CC=/opt/arm-ca9-linux-uclibcgnueabihf-8.4.01/usr/bin/arm-linux-gcc CPP=/opt/arm-ca9-linux-uclibcgnueabihf-8.4.01/usr/bin/arm-linux-g++ \
+--prefix=/usr/local/curl  \
+--with-ssl=/usr/local/share/openssl/include \
+--enable-shared --enable-static --enable-http-auth  --enable-http --enable-warnings --enable-file  --enable-libcurl-option \
+--disable-pop3 --disable-dict  --disable-imap --disable-ldap --disable-ldaps  --disable-proxy  --disable-smb --disable-gopher --disable-mqtt --disable-hsts --disable-smtp --disable-telnet   \
+--without-ca-bundle --without-gnutls --without-libidn --without-librtmp --without-libssh2  --without-nss --without-zlib  \
+--without-wolfssl --without-winssl --without-schannel --without-darwinssl --without-secure-transport
+
+
+curl-7.65.3
+2
+ CPPFLAGS="-I/root/install/openssl -I/root/install/openssl/include" \
+ LDFLAGS="-L/root/install/openssl/lib" LIBS="-ldl -lssl -lcrypto" \
+./configure --host=arm-linux  CC=/opt/arm-ca9-linux-uclibcgnueabihf-8.4.01/usr/bin/arm-linux-gcc \
+ CXX=/opt/arm-ca9-linux-uclibcgnueabihf-8.4.01/usr/bin/arm-linux-g++ --without-zlib\
+ -with-ssl=/root/install/openssl \
+ --enable-shared --enable-static --disable-dict --disable-ftp --prefix=/root/install/curl-7.30.0 
+
+================================================================================================================================================================================
+mosquitto编译  mosquitto.a
+1、配置 config.mk
+修改：	WITH_SRV:=no WITH_UUID:=no WITH_WEBSOCKETS:=no WITH_DOCS:=no WITH_STRIP:=yes WITH_STATIC_LIBRARIES:=yes
+
+添加：	CFLAGS += -I/usr/local/openssl/include
+		LDFLAGS += -L/usr/local/openssl/lib -lssl -lcrypto
+		
+		#STRIP?=strip	
+		CROSS_COMPILE=/opt/arm-ca9-linux-uclibcgnueabihf-8.4.01/usr/bin/arm-linux-
+		CC=gcc
+		CXX=g++
+		STRIP=strip
+		AR=ar rc		
+2、make；make install
+================================================================================================================================================================================
+libcares编译
+1、 生成Makefile   
+	./configure --host=arm-ca9-linux --prefix=/usr/local/cares       {eg:  ./configure --host=arm-linux --prefix=/usr/local/mp3 CPPFLAGS="-I/usr/local/mp3/include" LDFLAGS="-L/usr/local/mp3/lib"}
+2、make；make install
+
+
+
+
+
+【openssl-1.1.1】：
+   
+    1.下载 https://www.openssl.org/
+     下载解压openssl-1.0.2u.tar.gz
+
+    2，进入解压目录，执行config
+     CROSS_COMPILE=arm-ca9-linux-uclibcgnueabihf- CC=gcc ./config no-asm shared --prefix=/home/hl/work/CM2007/model/openssl/build/openssl-1.1.1/gclib
+    3，修改生成的Makefile
+     找到行 CFLAGS
+              CFLAGS = -march=armv7-a -mtune=cortex-a9 -mfpu=neon -mfloat-abi=hard -ftree-vectorize -fno-builtin -fno-common -Wformat=1 -D_BSP_NA51068_ -ffunction-sections -fdata-sections -fPIC
+    找到行CNF_CFLAGS
+          CNF_CFLAGS=-pthread -m64 去掉-m64  CNF_CFLAGS=-pthread  
+    4 make && make install
+    头文件和lib会安装到prefix指定目录
+
+================================================================================================================================================================================
+
+
+https://github.com/RNCryptor/RNCryptor-C
+
+setarch linux32 ./configure  --prefix=/home/rnc --with-openssl=/home/local/openssl-x --host=arm-ca9-linux
+	
+rncryptor_c.c:137:39
+
+
+
+
+
+
+/opt/arm-ca9-linux-uclibcgnueabihf-8.4.01/usr/bin/arm-linux-gcc \
+/home/RNCryptor-C-master/rn_encrypt.c  /home/RNCryptor-C-master/rncryptor_c.c \
+-I/home/local/openssl-x  \
+-I/home/local/openssl-x/include \
+-I/home/RNCryptor-C-master/ \
+-L/home/local/share-encrypt \
+-o /nfs/main-encry \
+-lcrypto -lssl -lrncryptorc
+
+
+/opt/arm-ca9-linux-uclibcgnueabihf-8.4.01/usr/bin/arm-linux-gcc \
+/home/RNCryptor-C-master/rn_encrypt-bak.c  /home/RNCryptor-C-master/rncryptor_c.c \
+-I/home/local/openssl  \
+-I/home/local/openssl/include \
+-I/home/RNCryptor-C-master/ \
+-L/home/local/share-encrypt \
+-o /nfs/main-encry \
+-lcrypto -lssl -lrncryptorc
+
+
+
+/opt/arm-ca9-linux-uclibcgnueabihf-8.4.01/usr/bin/arm-linux-gcc \
+/home/RNCryptor-C-master/rn_decrypt.c  /home/RNCryptor-C-master/rncryptor_c.c \
+-I/home/local/openssl  \
+-I/home/local/openssl/include \
+-I/home/RNCryptor-C-master/ \
+-L/home/local/share-encrypt \
+-o /nfs/main-decry \
+-lcrypto -lssl -lrncryptorc
+================================================================================================================================================================================
+	
+	
+./configure  \
+--prefix=/usr/local/cmake-14-install
+	
+	
+	
+	
+setarch linux32 ./configure  CC=/opt/arm-ca9-linux-uclibcgnueabihf-8.4.01/usr/bin/arm-linux-gcc CPP=/opt/arm-ca9-linux-uclibcgnueabihf-8.4.01/usr/bin/arm-linux-g++  --prefix=/usr/local/cmake- 
+
+
+编译科盛效果usb库
+./configure  \
+--host=arm-himix200-linux  \
+--prefix=/mnt/hgfs/xianmu/hongshi/2.5/other/ks-haisi/libusb-1.0.24/install/myusb \
+--disable-udev \
+CC=/opt/hisi-linux/x86-arm/arm-himix200-linux/bin/arm-himix200-linux-gcc \
+CXX=/opt/hisi-linux/x86-arm/arm-himix200-linux/bin/arm-himix200-linux-g++ 
