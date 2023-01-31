@@ -11,3 +11,6 @@ git checkout -- readme.txt   文件回到最近一次git commit或git add时的�
 
 git remote add origin git@github.com:alivsxw/mynotes.git 关联仓库
 git push -u origin master   首次上传到仓库 git push origin master
+
+
+git clone git@github.com:alivsxw/gitskills.git
