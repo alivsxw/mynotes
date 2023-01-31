@@ -1,0 +1,13 @@
+git init 初始化仓库
+git add/rm readme.txt 把文件修改添加到暂存区 readme.txt 文件名     ls -ah 查看所有文件
+git commit -m "worte a readme file"   将暂存区同步到仓库 备注"worte a readme file" 
+git status  查看仓库状态
+git diff readme.txt  查看仓库文件的不同
+git log   提交日志  git log --pretty=oneline
+git reset --hard HEAD^  回退到上个版本 HEAD^表示上个版本 HEAD^^表示上上个版本 HEAD~100上个100版本
+git reset --hard 1094a  回退到某个ID为1094a开头的版本
+git reflog  查看命令历史
+git checkout -- readme.txt   文件回到最近一次git commit或git add时的状态。
+
+git remote add origin git@github.com:alivsxw/mynotes.git 关联仓库
+git push -u origin master   首次上传到仓库 git push origin master
